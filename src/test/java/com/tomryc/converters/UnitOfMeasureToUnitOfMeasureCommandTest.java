@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-class UnitOfMeasureToUnitOfMeasureCommandTest {
+public class UnitOfMeasureToUnitOfMeasureCommandTest {
 
     public static final String DESCRIPTION = "description";
     public static final Long LONG_VALUE = new Long(1L);
