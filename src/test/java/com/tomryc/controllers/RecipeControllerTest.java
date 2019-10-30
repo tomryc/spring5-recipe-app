@@ -36,7 +36,9 @@ public class RecipeControllerTest {
         MockitoAnnotations.initMocks(this);
 
         controller = new RecipeController(recipeService);
-        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(controller)
+                .setControllerAdvice(new ControllerExceptionHandler())
+                .build();
     }
 
     @Test
@@ -54,7 +56,8 @@ public class RecipeControllerTest {
     }
 
     @Test
-    public void testGetRecipeNotFound() throws Exception{
+    public void testGetRecipeNotFound() throws Exception {
+
         when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
 
         mockMvc.perform(get("/recipe/1/show"))
@@ -63,7 +66,7 @@ public class RecipeControllerTest {
     }
 
     @Test
-    public void testGetRecipeNumberFormatException() throws Exception{
+    public void testGetRecipeNumberFormatException() throws Exception {
 
         mockMvc.perform(get("/recipe/asdf/show"))
                 .andExpect(status().isBadRequest())
@@ -110,7 +113,7 @@ public class RecipeControllerTest {
     }
 
     @Test
-    public void testDeleteAction() throws Exception{
+    public void testDeleteAction() throws Exception {
         mockMvc.perform(get("/recipe/1/delete"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/"));
